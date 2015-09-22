@@ -139,7 +139,7 @@ namespace Microsoft.AspNet.Razor.Runtime.TagHelpers
                 throw new ArgumentNullException(nameof(format));
             }
 
-            Buffer.Append(string.Format(format, arg0));
+            Buffer.Append(new FormattedHtmlContent(format, new object[] { arg0 }));
             return this;
         }
 
@@ -151,7 +151,7 @@ namespace Microsoft.AspNet.Razor.Runtime.TagHelpers
                 throw new ArgumentNullException(nameof(format));
             }
 
-            Buffer.Append(string.Format(format, arg0, arg1));
+            Buffer.Append(new FormattedHtmlContent(format, new object[] { arg0, arg1 }));
             return this;
         }
 
@@ -163,7 +163,7 @@ namespace Microsoft.AspNet.Razor.Runtime.TagHelpers
                 throw new ArgumentNullException(nameof(format));
             }
 
-            Buffer.Append(string.Format(format, arg0, arg1, arg2));
+            Buffer.Append(new FormattedHtmlContent(format, new object[] { arg0, arg1, arg2 }));
             return this;
         }
 
@@ -175,7 +175,7 @@ namespace Microsoft.AspNet.Razor.Runtime.TagHelpers
                 throw new ArgumentNullException(nameof(format));
             }
 
-            Buffer.Append(string.Format(format, args));
+            Buffer.Append(new FormattedHtmlContent(format, args));
             return this;
         }
 
@@ -195,7 +195,7 @@ namespace Microsoft.AspNet.Razor.Runtime.TagHelpers
                 throw new ArgumentNullException(nameof(format));
             }
 
-            Buffer.Append(string.Format(provider, format, arg0));
+            Buffer.Append(new FormattedHtmlContent(provider, format, new object[] { arg0 }));
             return this;
         }
 
@@ -216,7 +216,7 @@ namespace Microsoft.AspNet.Razor.Runtime.TagHelpers
                 throw new ArgumentNullException(nameof(format));
             }
 
-            Buffer.Append(string.Format(provider, format, arg0, arg1));
+            Buffer.Append(new FormattedHtmlContent(provider, format, new object[] { arg0, arg1 }));
             return this;
         }
 
@@ -238,7 +238,7 @@ namespace Microsoft.AspNet.Razor.Runtime.TagHelpers
                 throw new ArgumentNullException(nameof(format));
             }
 
-            Buffer.Append(string.Format(provider, format, arg0, arg1, arg2));
+            Buffer.Append(new FormattedHtmlContent(provider, format, new object[] { arg0, arg1, arg2 }));
             return this;
         }
 
@@ -258,7 +258,7 @@ namespace Microsoft.AspNet.Razor.Runtime.TagHelpers
                 throw new ArgumentNullException(nameof(format));
             }
 
-            Buffer.Append(string.Format(provider, format, args));
+            Buffer.Append(new FormattedHtmlContent(provider, format, args));
             return this;
         }
 
