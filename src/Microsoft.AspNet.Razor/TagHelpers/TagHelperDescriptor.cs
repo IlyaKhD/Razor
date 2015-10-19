@@ -167,7 +167,7 @@ namespace Microsoft.AspNet.Razor.TagHelpers
         /// Get the name of the HTML element required as the immediate parent.
         /// </summary>
         /// <remarks><c>null</c> indicates no restriction on parent tag.</remarks>
-        public string RequiredParent { get; set; }
+        public IEnumerable<string> RequiredParents { get; set; }
 
         /// <summary>
         /// The expected tag structure.

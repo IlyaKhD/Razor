@@ -40,7 +40,6 @@ namespace Microsoft.AspNet.Razor.Parser.TagHelpers.Internal
         private TagHelperBlockTracker _currentTagHelperTracker;
         private Stack<BlockBuilder> _blockStack;
         private BlockBuilder _currentBlock;
-        private string _currentParentTagName;
 
         public TagHelperParseTreeRewriter(TagHelperDescriptorProvider provider)
         {
@@ -179,7 +178,7 @@ namespace Microsoft.AspNet.Razor.Parser.TagHelpers.Internal
                 // We're now in a start tag block, we first need to see if the tag block is a tag helper.
                 var providedAttributes = GetAttributeNames(tagBlock);
 
-                descriptors = _provider.GetDescriptors(tagName, providedAttributes, _currentParentTagName);
+                descriptors = _provider.GetDescriptors(tagName, providedAttributes, GetTrackerTagNames());
 
                 // If there aren't any TagHelperDescriptors registered then we aren't a TagHelper
                 if (!descriptors.Any())
@@ -247,7 +246,7 @@ namespace Microsoft.AspNet.Razor.Parser.TagHelpers.Internal
                     descriptors = _provider.GetDescriptors(
                         tagName,
                         attributeNames: Enumerable.Empty<string>(),
-                        parentTagName: _currentParentTagName);
+                        trackedTagNames: GetTrackerTagNames());
 
                     // If there are not TagHelperDescriptors associated with the end tag block that also have no
                     // required attributes then it means we can't be a TagHelper, bail out.
@@ -668,16 +667,17 @@ namespace Microsoft.AspNet.Razor.Parser.TagHelpers.Internal
 
         private void PushTrackerStack(TagBlockTracker tracker)
         {
-            _currentParentTagName = tracker.TagName;
             _trackerStack.Push(tracker);
         }
 
         private TagBlockTracker PopTrackerStack()
         {
-            var poppedTracker = _trackerStack.Pop();
-            _currentParentTagName = _trackerStack.Count > 0 ? _trackerStack.Peek().TagName : null;
+            return _trackerStack.Pop();
+        }
 
-            return poppedTracker;
+        private string[] GetTrackerTagNames()
+        {
+            return _trackerStack.Reverse().Select(i => i.TagName).ToArray();
         }
 
         private class TagBlockTracker

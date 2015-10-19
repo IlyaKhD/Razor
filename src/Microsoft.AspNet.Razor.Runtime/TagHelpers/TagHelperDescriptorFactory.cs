@@ -142,7 +142,7 @@ namespace Microsoft.AspNet.Razor.Runtime.TagHelpers
                         requiredAttributes: Enumerable.Empty<string>(),
                         allowedChildren: allowedChildren,
                         tagStructure: default(TagStructure),
-                        parentTag: null,
+                        parentTags: null,
                         designTimeDescriptor: typeDesignTimeDescriptor)
                 };
             }
@@ -224,6 +224,7 @@ namespace Microsoft.AspNet.Razor.Runtime.TagHelpers
             TagHelperDesignTimeDescriptor designTimeDescriptor)
         {
             var requiredAttributes = GetCommaSeparatedValues(targetElementAttribute.Attributes);
+            var parentTags = targetElementAttribute.ParentTag?.Split('.') ?? Enumerable.Empty<string>();
 
             return BuildTagHelperDescriptor(
                 targetElementAttribute.Tag,
@@ -232,7 +233,7 @@ namespace Microsoft.AspNet.Razor.Runtime.TagHelpers
                 attributeDescriptors,
                 requiredAttributes,
                 allowedChildren,
-                targetElementAttribute.ParentTag,
+                parentTags,
                 targetElementAttribute.TagStructure,
                 designTimeDescriptor);
         }
@@ -244,7 +245,7 @@ namespace Microsoft.AspNet.Razor.Runtime.TagHelpers
             IEnumerable<TagHelperAttributeDescriptor> attributeDescriptors,
             IEnumerable<string> requiredAttributes,
             IEnumerable<string> allowedChildren,
-            string parentTag,
+            IEnumerable<string> parentTags,
             TagStructure tagStructure,
             TagHelperDesignTimeDescriptor designTimeDescriptor)
         {
@@ -256,7 +257,7 @@ namespace Microsoft.AspNet.Razor.Runtime.TagHelpers
                 Attributes = attributeDescriptors,
                 RequiredAttributes = requiredAttributes,
                 AllowedChildren = allowedChildren,
-                RequiredParent = parentTag,
+                RequiredParents = parentTags,
                 TagStructure = tagStructure,
                 DesignTimeDescriptor = designTimeDescriptor
             };

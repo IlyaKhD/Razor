@@ -161,7 +161,7 @@ namespace Microsoft.AspNet.Razor.Runtime.TagHelpers
                         Attributes = descriptor.Attributes,
                         RequiredAttributes = descriptor.RequiredAttributes,
                         AllowedChildren = descriptor.AllowedChildren,
-                        RequiredParent = descriptor.RequiredParent,
+                        RequiredParents = descriptor.RequiredParents,
                         TagStructure = descriptor.TagStructure,
                         DesignTimeDescriptor = descriptor.DesignTimeDescriptor
                     });
