@@ -19,6 +19,9 @@ namespace Microsoft.AspNet.Razor.Runtime.TagHelpers
     /// </summary>
     public static class TagHelperDesignTimeDescriptorFactory
     {
+
+        static IDictionary<string, XmlDocumentationProvider> _documentationProviderCache = new Dictionary<string, XmlDocumentationProvider>();
+
         /// <summary>
         /// Creates a <see cref="TagHelperDesignTimeDescriptor"/> from the given <paramref name="type"/>.
         /// </summary>
@@ -113,7 +116,7 @@ namespace Microsoft.AspNet.Razor.Runtime.TagHelpers
             // Only want to process the file if it exists.
             if (xmlDocumentationFile != null)
             {
-                var documentationProvider = new XmlDocumentationProvider(xmlDocumentationFile.FullName);
+                var documentationProvider = GetDocumentationProvider(xmlDocumentationFile.FullName);
 
                 var summary = documentationProvider.GetSummary(id);
                 var remarks = documentationProvider.GetRemarks(id);
@@ -129,6 +132,16 @@ namespace Microsoft.AspNet.Razor.Runtime.TagHelpers
             }
 
             return null;
+        }
+
+        private static XmlDocumentationProvider GetDocumentationProvider(string fileName) {
+            if(_documentationProviderCache.ContainsKey(fileName))
+                return _documentationProviderCache[fileName];
+
+            var provider = new XmlDocumentationProvider(fileName);
+            _documentationProviderCache[fileName] = provider;
+
+            return provider;
         }
 
         private static FileInfo GetXmlDocumentationFile(Assembly assembly, string assemblyLocation)
